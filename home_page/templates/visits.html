@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Visits{% endblock %}
+{% block head %}
+    <style>
+        th { font-size: smaller; }
+        td {
+            text-align: center;
+            font-size: smaller;
+        }
+        tr:nth-child(even) { background-color: #79aec8; }
+        tr:nth-child(odd) { background-color: #E9EDF1; }
+    </style>
+{% endblock %}
+{% block content %}
+    <table style="width: inherit; border-collapse: collapse;">
+        <tr><th>Adress</th><th>Last seen</th><th>Count</th></tr>
+        {% for visit in hits_by_ip %}
+            <tr><td>{{ visit.0 }}</td><td>{{ visit.1 }}</td><td>{{ visit.2 }}</td></tr>
+        {% endfor %}
+    </table>
+{% endblock %}

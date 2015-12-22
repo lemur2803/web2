@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+    <table>
+        <tr><th>#</th><th>Image</th><th>User</th><th>Text</th><th>Time</th></tr>
+        {% for comm in comments %}
+            <tr><td>{{ comm.id }}</td><td>{{ comm.id_image }}</td><td>{{ comm.user }}</td><td>{{ comm.text }}</td><td>{{ comm.created_at }}</td></tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

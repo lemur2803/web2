@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+{% block title %}Gallery{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'CSS/only_gallery.css' %}" type="text/css">
+    <script type="text/javascript" src="{% static 'JS/gallery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'JS/comments.js' %}"></script>
+{% endblock %}
+{% block layers %}
+    <div id="help" style="display: none;">
+        <div>
+            HELP<br>
+            * Press <q>F1</q> to close HELP.<br>
+            * Press on Image to zoom Image.<br>
+            * In zoomed view press <q>&rarr;</q> to go to NEXT image.<br>
+            * In zoomed view press <q>&larr;</q> to go to PREVIOUS image.<br>
+            * In zoomed view press <q>Esc</q> to exit.<br>
+            <br>
+            PS, use the Lable to "fly" to the beginning and back.<br>
+        </div>
+    </div>
+    <div id="second_floor" style="display: none;">
+        <div id="floor2_center_border">
+            <div id="floor2_center">
+                <div id="floor2_head" style="margin-bottom: 5px; width: 100%; height: 20px">
+                    <div style="margin-left: 12px; float: left">Photo <span id="current_photo">1</span> from <span id="all_photo">2</span></div>
+                    <div onclick="big_size_exit()" style="float: right; margin-right: 12px; cursor: pointer;">Close</div>
+                </div>
+                <div id="floor2_content">
+                    <div id="prev_pic" onclick="nextOrPrev('prev')"><img src="{% static 'Images/Gallery/prev.png' %}" alt="prev"></div>
+                    <div id="floor2_img_div" style="background-image: url('{% static 'Images/Gallery/loading.gif' %}');"></div>
+                    <div id="next_pic" onclick="nextOrPrev('next')"><img src="{% static 'Images/Gallery/next.png' %}" alt="next"></div>
+                </div>
+                <div id="floor2_under_pic">
+                    <div id="but_bind_div">
+                        <button class="button" onclick="imageToCookie()">Bind image to start</button>
+                    </div>
+                    <div id="floor2_comments">
+                        <div id="comment_table"></div>
+                        {% if user.is_authenticated %}
+                            <form id="comment_form" action="" method="POST">
+                                {% csrf_token %}
+                                <div style="margin-top: 10px;">
+                                    <textarea id="text_com" style="resize: none;" name="text" placeholder="Input your commentary"
+                                              cols="50" rows="4" maxlength="512"></textarea>
+                                </div>
+                                <input id="but_send_div" type="submit" value="Send">
+                            </form>
+                        {% endif %}
+                    </div>
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="first_floor">
+{% endblock %}
+{% block content %}
+        <div style='width: 100%'>
+            <div id="Gallery_Div" style="width: inherit">
+                <div id="Gallery_Beasts">
+                    <div class="photos_category"><b class="h">Beasts</b></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/01.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/02.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/03.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/04.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/05.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/06.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/07.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/08.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/09.jpg' %}" alt="beasts"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Beasts/Mini/10.jpg' %}" alt="beasts"></div>
+                </div>
+                <div id="Gallery_Cars">
+                    <div class="photos_category"><b class="h">Cars</b></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/01.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/02.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/03.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/04.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/05.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/06.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/07.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/08.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/09.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/10.jpg' %}" alt="cars"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Cars/Mini/11.jpg' %}" alt="cars"></div>
+                </div>
+                <div id="Gallery_Bikes">
+                    <div class="photos_category"><b class="h">Bikes</b></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/01.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/02.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/03.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/04.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/05.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/06.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/07.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/08.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/09.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/10.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/11.jpg' %}" alt="bikes"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Bikes/Mini/12.jpg' %}" alt="bikes"></div>
+                </div>
+                <div id="Gallery_Nature">
+                    <div class="photos_category"><b class="h">Nature</b></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/01.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/02.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/03.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/04.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/05.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/06.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/07.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/08.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/09.jpg' %}" alt="nature"></div>
+                    <div class="img_div"><img class="picture" src="{% static 'Images/Gallery/Nature/Mini/10.jpg' %}" alt="nature"></div>
+                </div>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+{% endblock %}

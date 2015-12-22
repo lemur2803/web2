@@ -1,0 +1,218 @@
+@media all {
+	#Gallery_Div div { float: left; }
+	.img_div {
+		position: relative;
+		height: 100px;
+		width: 190px;
+		display: inline-block;
+		overflow: hidden;
+		background: #fff;
+		cursor: pointer;
+		margin: 5px;
+	}
+	#floor2_img_div {
+		overflow: hidden;
+		background: #fff;
+		position: relative;
+		height: inherit;
+		float: left;
+		background-repeat: no-repeat;
+		background-position: center;
+	}
+	.img_div img, #big_picture {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		margin: auto;
+	}
+	.photos_category {
+		width: 100%;
+		margin-top: 12px;
+		margin-bottom: 2px;
+	}
+	#comment_table { width: inherit; }
+	#comment_table tr { width: inherit; }
+	#comment_table td { border-top: 1px solid #E9EDF1; }
+	.h {
+		padding-left: 5px;
+		color: #2B587A;
+	}
+	#help {
+        z-index: 4;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		text-align: center;
+		background: rgb(0, 0, 0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+	#login div{
+		background-color: lightgrey;
+		display: inline-block;
+		text-align: left;
+	}
+	#second_floor {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		overflow-y: auto;
+		z-index: 2;
+		background: rgb(0, 0, 0);
+		background: rgba(0, 0, 0, 0.7);
+	}
+	#floor2_center_border { width: 100%; }
+	#floor2_center {
+		margin: auto;
+		background: #fff;
+		display: block;
+	}
+	#floor2_content { width: 100%; }
+	#prev_pic, #next_pic {
+		width: 30px;
+		height: inherit;
+		float: left;
+		cursor: pointer;
+		position: relative;
+	}
+	#prev_pic img, #next_pic img {
+		position: absolute;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+	}
+	#floor2_under_pic {
+		width: inherit;
+		margin-bottom: 10px;
+	}
+	#but_bind_div { float: left; }
+	.button {
+		width: inherit;
+		height: inherit;
+		background-color: #6383a8;
+		color: #fff;
+		cursor: pointer;
+	}
+	#floor2_comments { margin: auto; }
+	#comment_form { margin-top: 20px; }
+	
+}
+@media screen and (max-device-width: 100000px) {
+	#help div{
+		padding: 20px;
+		margin-top: 100px;
+	}
+	.h { font-size: 120%; }
+	#floor2_center_border {
+		min-width: 860px;
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
+	#floor2_center {
+		width: 860px;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	#floor2_content {
+		height: 600px;
+		padding-bottom: 20px;
+	}
+	#floor2_img_div { width: 800px; }
+	#but_bind_div {
+		width: 100px;
+		height: 50px;
+		margin-top: 4px;
+		margin-left: 10px;
+	}
+	#floor2_comments { width: 406px; }
+	#comment_text { width: 370px; }
+	#but_send_div {
+		width: 90px;
+		height: 30px;
+		margin-top: 10px;
+	}
+}
+@media screen and (max-device-width: 1003px) {	
+	#help div {
+		padding: 14px;
+		margin-top: 70px;
+	}
+	.h { font-size: 110%; }
+	#floor2_center_border {
+		min-width: 660px;
+		padding-top: 26px;
+		padding-bottom: 26px;
+	}
+	#floor2_center {
+		width: 660px;
+		padding-top: 7px;
+		padding-bottom: 7px;
+	}
+	#floor2_content {
+		height: 540px;
+		padding-bottom: 14px;
+	}
+	#floor2_img_div { width: 600px; }
+	#but_bind_div {
+		width: 80px;
+		height: 50px;
+		margin-top: 4px;
+		margin-left: 10px;
+	}
+	#floor2_comments { width: 360px; }
+	#comment_text { width: 350px; }
+	#but_send_div {
+		width: 70px;
+		height: 30px;
+		margin-top: 10px;
+	}
+}
+@media screen and (max-device-width: 603px) {
+	.img_div { margin: 5px 60px; }
+	#help div {
+		padding: 7px;
+		margin-top: 30px;
+	}
+	.h {
+		padding-left: 60px;
+		font-size: 90%;
+	}
+	#floor2_head { font-size: 80%; }
+	#floor2_center_border {
+		min-width: 320px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+	}
+	#floor2_center {
+		width: 320px;
+		padding-top: 4px;
+		padding-bottom: 4px;
+	}
+	#floor2_content {
+		height: 320px;
+		padding-bottom: 7px;
+	}
+	#floor2_img_div { width: 260px; }
+	#but_bind_div {
+		width: 50px;
+		height: 40px;
+		margin-top: 4px;
+		margin-left: 10px;
+	}
+	#but_bind_div button, #but_send_div button {font-size: x-small;}
+	#floor2_comments {
+		width: 180px;
+		font-size: 80%;
+	}
+	#comment_text {
+		width: 170px;
+		height: 50px;
+	}
+	#but_send_div {
+		width: 50px;
+		height: 20px;
+		margin-top: 10px;
+	}
+}
