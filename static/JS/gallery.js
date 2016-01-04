@@ -137,7 +137,7 @@ function imageToCookie() {
 	if (document.cookie)
 		document.cookie = "image=";
 	document.cookie = "image=" + window.location.hash.replace('#', '');
-	console.log(document.cookie);
+	//console.log(document.cookie);
 }
 
 
