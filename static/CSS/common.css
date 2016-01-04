@@ -150,7 +150,7 @@
 		margin-top: 70px;
 	}
 }
-@media screen and (max-device-width: 603px) {
+@media screen and (max-device-width: 663px) {
 	body { min-width: 320px; }
 	#empty {height: 39px; }
 	#center_div_border { width: 320px; }

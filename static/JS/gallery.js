@@ -153,7 +153,8 @@ function getComments() {
 		},
 		success: function(data) {
              if (typeof data === 'string'){
-                 window.location.href = data;
+                 //window.location.href = data;
+				 window.location.reload();
              }
              else {
                  comments.empty().hide();
@@ -187,8 +188,10 @@ comment_form.submit(function() {
 					if (data === 'editOK') {
 						getComments();
 					}
-					else
-						window.location.href = data;
+					else if (data !== 'Empty comment!') {
+						//window.location.href = data;
+						window.location.reload();
+					}
 				}
 			} else {
 				getComments();
@@ -214,7 +217,8 @@ function deleteComment(id) {
 		success: function(data) {
 			if (typeof data === 'string'){
 				if (data !== 'OK') {
-					window.location.href = data;
+					//window.location.href = data;
+					window.location.reload();
 				}
 				getComments();
 			}
@@ -239,7 +243,8 @@ like_form.submit(function() {
 		},
 		success: function(data) {
 			if (parseInt(data) != data){
-				window.location.href = data;
+				//window.location.href = data;
+				window.location.reload();
 			}
 			else {
 				document.getElementById('likes_count').innerHTML = data;
@@ -261,7 +266,8 @@ function getLikesCount (id) {
 		},
 		success: function(data) {
 			if (parseInt(data) != data){
-				window.location.href = data;
+				//window.location.href = data;
+				window.location.reload();
 			}
 			else {
 				document.getElementById('likes_count').innerHTML = data;

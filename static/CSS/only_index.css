@@ -63,7 +63,7 @@
 	}
 	.text p { padding: 7px; }
 }
-@media screen and (max-device-width: 603px) {
+@media screen and (max-device-width: 663px) {
 	.block_text_img {
 		height: 275px;
 	}
