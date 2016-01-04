@@ -6,7 +6,7 @@ from django.template import Template, Context
 from django.utils import timezone
 from django.conf import settings
 
-from home_page.models import Comment
+from home_page.models import Comment, Like
 from visits.models import Visit
 
 COMMENT_TEMPLATE = """
@@ -185,3 +185,29 @@ def visits(request):
     for key in sorted(hits_by_ip, key=lambda k: hits_by_ip[k][0], reverse=True):
         final_list_by_ip.append([key, hits_by_ip[key][0], hits_by_ip[key][1]])
     return render(request, 'visits.html', {'hits_by_ip': final_list_by_ip})
+
+
+def send_like(request):
+    if request.method == "POST":
+        if request.is_ajax():
+            if request.user.is_authenticated():
+                author = User.objects.get(username=request.user.username)
+                picture_id = request.POST['id']
+                like_exists = Like.objects.filter(id_image=picture_id, user=author)
+                if not like_exists:
+                    like = Like.objects.create(id_image=picture_id, user=author)
+                    like.save()
+                else:
+                    like_exists.delete()
+                count = Like.objects.filter(id_image=picture_id).count()
+                return HttpResponse(count)
+    return HttpResponse(request.META['HTTP_REFERER'])
+
+
+def get_likes_count(request):
+    if request.method == "GET":
+        if request.is_ajax():
+            picture_id = request.GET['id']
+            count = Like.objects.filter(id_image=picture_id).count()
+            return HttpResponse(count)
+    return HttpResponse(request.META['HTTP_REFERER'])

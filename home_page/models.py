@@ -17,3 +17,12 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Comment for image'
         verbose_name_plural = 'Comments for image'
+
+
+class Like(models.Model):
+    id_image = models.IntegerField(verbose_name='id image')
+    user = models.ForeignKey(User, verbose_name='author')
+
+    class Meta:
+        verbose_name = 'Like for image'
+        verbose_name_plural = 'Likes for image'

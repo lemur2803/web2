@@ -2,6 +2,7 @@ var pictures = [];
 var pictures_len;
 var comments;
 var comment_form;
+var like_form;
 
 a = document.querySelectorAll('.picture');
 for (var i = 0; i < a.length; i++) {
@@ -18,6 +19,7 @@ if (window.location.hash) history();
 document.body.onhashchange = history;
 comments = $('#comment_table');
 comment_form= $('#comment_form');
+like_form= $('#like_form');
 
 function history() {
 	var index =	window.location.hash.replace('#', '');
@@ -39,7 +41,8 @@ function history() {
 			newImg.setAttribute('onload', 'picture_resize(this)');
 			newImg.setAttribute('alt', 'big');
 			parent.appendChild(newImg);
-            
+
+			getLikesCount(index);
             getComments();
 		}
 		else {
@@ -225,4 +228,47 @@ function editComment (id) {
 	ifEdit = true;
 	editId = id;
 	document.getElementById('text_com').innerHTML = document.getElementById('comment_' + id).innerHTML;
+}
+like_form.submit(function() {
+	$.ajax({
+		type: 'POST',
+		url: '/home/gallery/send_like/',
+		data: {
+			id: window.location.hash.replace('#', ''),
+			csrfmiddlewaretoken: $.cookie('csrftoken')
+		},
+		success: function(data) {
+			if (parseInt(data) != data){
+				window.location.href = data;
+			}
+			else {
+				document.getElementById('likes_count').innerHTML = data;
+			}
+		},
+		error: function (data) {
+			alert('Stop hacking!');
+		}
+	});
+	return false;
+});
+
+function getLikesCount (id) {
+	$.ajax({
+		type: 'GET',
+		url: '/home/gallery/get_likes_count/',
+		data: {
+			id: window.location.hash.replace('#', '')
+		},
+		success: function(data) {
+			if (parseInt(data) != data){
+				window.location.href = data;
+			}
+			else {
+				document.getElementById('likes_count').innerHTML = data;
+			}
+		},
+		error: function (data) {
+			alert('Stop hacking!');
+		}
+	});
 }

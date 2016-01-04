@@ -28,5 +28,7 @@ urlpatterns = [
     url(r'^gallery/get_comments/$', 'home_page.views.get_comments', name='get_comments'),
     url(r'^gallery/send_comment/$', 'home_page.views.send_comment', name='send_comment'),
     url(r'^gallery/delete_comment/(?P<id_comment>[0-9]+)$', 'home_page.views.delete_comment', name='delete_comment'),
+    url(r'^gallery/send_like/$', 'home_page.views.send_like', name='send_like'),
+    url(r'^gallery/get_likes_count/$', 'home_page.views.get_likes_count', name='get_likes_count'),
     url(r'^comments/(?P<id_image>[0-9]+)$', 'home_page.views.comments', name='get_commentsOut'),
 ]

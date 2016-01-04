@@ -87,7 +87,12 @@
 		width: inherit;
 		margin-bottom: 10px;
 	}
-	#but_bind_div { float: left; }
+	#but_bind_div {
+		margin-left: 20px;
+		margin-right: 50px;
+		width: 100px;
+		height: 21px;
+	}
 	.button {
 		width: inherit;
 		height: inherit;
@@ -120,12 +125,7 @@
 		padding-bottom: 20px;
 	}
 	#floor2_img_div { width: 800px; }
-	#but_bind_div {
-		width: 100px;
-		height: 50px;
-		margin-top: 4px;
-		margin-left: 10px;
-	}
+	#but_bind_div { }
 	#floor2_comments { width: 406px; }
 	#comment_text { width: 370px; }
 	#but_send_div {
@@ -155,12 +155,7 @@
 		padding-bottom: 14px;
 	}
 	#floor2_img_div { width: 600px; }
-	#but_bind_div {
-		width: 80px;
-		height: 50px;
-		margin-top: 4px;
-		margin-left: 10px;
-	}
+	#but_bind_div {	}
 	#floor2_comments { width: 360px; }
 	#comment_text { width: 350px; }
 	#but_send_div {
@@ -195,13 +190,8 @@
 		padding-bottom: 7px;
 	}
 	#floor2_img_div { width: 260px; }
-	#but_bind_div {
-		width: 50px;
-		height: 40px;
-		margin-top: 4px;
-		margin-left: 10px;
-	}
-	#but_bind_div button, #but_send_div button {font-size: x-small;}
+	#but_bind_div {	}
+	/*#but_bind_div button, #but_send_div button {font-size: x-small;}*/
 	#floor2_comments {
 		width: 180px;
 		font-size: 80%;
