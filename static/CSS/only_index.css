@@ -22,19 +22,14 @@
 		margin: auto;
 	}
 	.text {
-		position: relative;
+		display: table;
 		float: left;
 		background: rgb(122, 165, 243);
 		background: rgba(122, 165, 243, 0.72);
 	}
-	.text p {
-		display: inline-table;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		margin: auto;
-		position: absolute;
+	.text div {
+		display: table-cell;
+		vertical-align: middle;
 	}
 }
 @media screen and (max-device-width: 100000px) {
@@ -48,7 +43,7 @@
 		width: 240px;
 		height: 100%;
 	}
-	.text p { padding: 10px; }
+	.text div { padding: 10px; }
 }
 @media screen and (max-device-width: 1003px) {
 	.img_text {
@@ -61,7 +56,7 @@
 		width: 155px;
 		height: 100%;
 	}
-	.text p { padding: 7px; }
+	.text div { padding: 7px; }
 }
 @media screen and (max-device-width: 663px) {
 	.block_text_img {
@@ -83,5 +78,5 @@
 		width: 100%;
 		height: 150px;
 	}
-	.text p { padding: 4px; }
+	.text div { padding: 4px; }
 }

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Visits{% endblock %}
+{% block title %}Details{% endblock %}
 {% block head %}
     <style>
         th { font-size: smaller; }
@@ -14,14 +14,13 @@
 {% endblock %}
 {% block content %}
     <table style="width: inherit; border-collapse: collapse;">
-        <tr><th>Adress</th><th>Last seen</th><th>Count</th></tr>
-        {% for hit in hits_by_ip %}
+        {% for visits_by_ip in all_visits_by_ip %}
             <tr>
-                <td>
-                    <a href="{% url "home:details_page" hit.0 %}">{{ hit.0 }}</a>
-                </td>
-                <td>{{ hit.1 }}</td>
-                <td>{{ hit.2 }}</td>
+                <td>{{ forloop.counter }}</td>
+                <td title="{{ visits_by_ip.ip_address }}">{{ visits_by_ip.ip_address }}</td>
+                <td title="{{ visits_by_ip.uri }}">{{ visits_by_ip.uri|truncatechars:40 }}</td>
+                <td>{{ visits_by_ip.last_visit }}</td>
+                <td>{{ visits_by_ip.visits }}</td>
             </tr>
         {% endfor %}
     </table>

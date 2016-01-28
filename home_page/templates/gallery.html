@@ -50,11 +50,18 @@
                             <form id="comment_form" action="" method="POST">
                                 {% csrf_token %}
                                 <div style="margin-top: 10px;">
+                                    <div id="edit_signal" style="color: rebeccapurple; display: none;">Editing...</div>
                                     <textarea id="text_com" style="resize: none;" name="text" placeholder="Input your commentary"
                                               cols="50" rows="4" maxlength="512"></textarea>
                                 </div>
                                 <input id="but_send_div" type="submit" value="Send">
                             </form>
+                            <div id="history_comment" style="width: 100%; height: 100px; overflow: auto;
+                                overflow-X: hidden; word-break: break-all; border: #5084CC 2px solid; margin-top: 14px;">
+                                <pre id="history_comment_text"
+                                     style="font-size: 13px;">Empty history. Click "H" to see history of the commentary.
+                                </pre>
+                            </div>
                         {% endif %}
                     </div>
                     <div style="clear: both;"></div>
@@ -66,6 +73,7 @@
 {% endblock %}
 {% block content %}
         <div style='width: 100%'>
+            <a href="/home/gallery/statistic.xml" style="margin: 5px;">Статистика галереи</a><br>
             <div id="Gallery_Div" style="width: inherit">
                 <div id="Gallery_Beasts">
                     <div class="photos_category"><b class="h">Beasts</b></div>

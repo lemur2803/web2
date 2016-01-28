@@ -20,6 +20,7 @@ document.body.onhashchange = history;
 comments = $('#comment_table');
 comment_form= $('#comment_form');
 like_form= $('#like_form');
+var loop_comments, loop_likes;
 
 function history() {
 	var index =	window.location.hash.replace('#', '');
@@ -43,7 +44,9 @@ function history() {
 			parent.appendChild(newImg);
 
 			getLikesCount(index);
+			loop_likes = setInterval(function(){getLikesCount(index);}, 3000);
             getComments();
+			loop_comments = setInterval(function(){getComments();}, 3000);
 		}
 		else {
 			window.location.hash = '';
@@ -73,7 +76,7 @@ function big_size(pic) {
 	var path_to_big = pic.src.replace("/Mini", "");
 	for (var i = 0; i < pictures_len; i++)
 		if (pictures[i] == path_to_big) {		
-			window.location.hash = i + 1;			
+			window.location.hash = i + 1;
 			break;
 		}
 }
@@ -87,9 +90,13 @@ function nextOrPrev(direction) {
 		if (current - 2 < 0) x = pictures_len - 1;
 		else x = current - 2;
 	}
+	clearInterval(loop_comments);
+	clearInterval(loop_likes);
 	window.location.hash = x + 1;
 }
 function big_size_exit() {
+	clearInterval(loop_comments);
+	clearInterval(loop_likes);
 	document.getElementById("second_floor").style.display = 'none';
 	document.body.style.overflowY = 'auto';
 	window.location.hash = '';
@@ -107,7 +114,7 @@ if('onhelp' in window) {
 document.onkeydown = function(e) {
     e = e || window.event;
 	var flag = 0;
-	if (e.keyCode == 112 || e.keyCode == 27 || e.keyCode == 37 || e.keyCode == 39) {
+	if (e.keyCode == 112 || e.keyCode == 27) {
 		flag = 1;
 		if(e.stopPropagation)
 			e.stopPropagation();
@@ -125,11 +132,15 @@ document.onkeydown = function(e) {
 		if (e.keyCode == 27) { //Esc			
 			big_size_exit();			
 		}
-		else if (e.keyCode == 37) { //left
-			nextOrPrev('prev');
-		}
-		else if (e.keyCode == 39) { //right
-			nextOrPrev('next');
+		else {
+			if (document.getElementById('text_com') != document.activeElement) {
+				if (e.keyCode == 37) { //left
+					nextOrPrev('prev');
+				}
+				else if (e.keyCode == 39) { //right
+					nextOrPrev('next');
+				}
+			}
 		}
 	}
 	if (flag)
@@ -186,6 +197,7 @@ comment_form.submit(function() {
 			if (typeof data === 'string') {
 				if (data !== 'stop') {
 					if (data === 'editOK') {
+						document.getElementById('edit_signal').style.display = 'none';
 						getComments();
 					}
 					else if (data !== 'Empty comment!') {
@@ -220,6 +232,10 @@ function deleteComment(id) {
 					//window.location.href = data;
 					window.location.reload();
 				}
+				ifEdit = false;
+				editId = -1;
+				document.getElementById('text_com').innerHTML = '';
+				document.getElementById('edit_signal').style.display = 'none';
 				getComments();
 			}
 		},
@@ -232,6 +248,27 @@ function editComment (id) {
 	ifEdit = true;
 	editId = id;
 	document.getElementById('text_com').innerHTML = document.getElementById('comment_' + id).innerHTML;
+	document.getElementById('edit_signal').style.display = 'block';
+	var block = document.getElementById("second_floor");
+	block.scrollTop = block.scrollHeight;
+}
+function historyComment (id) {
+	$.ajax({
+		type: 'GET',
+		url: '/home/gallery/get_history/',
+		data: {
+			id: id
+		},
+		success: function(data) {
+			document.getElementById('history_comment_text').innerHTML = data;
+			var block = document.getElementById("second_floor");
+  			block.scrollTop = block.scrollHeight;
+		},
+		error: function (data) {
+			alert('Stop hacking!');
+		}
+	});
+	return false;
 }
 like_form.submit(function() {
 	$.ajax({

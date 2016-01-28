@@ -8,6 +8,7 @@ class Comment(models.Model):
     id_image = models.IntegerField(verbose_name='id image')
     user = models.ForeignKey(User, verbose_name='author')
     text = models.TextField(verbose_name='comment', max_length=512)
+    history = models.TextField(verbose_name='history', max_length=4096, blank=True)
     created_at = models.DateTimeField(verbose_name='created at', default=timezone.now, editable=False)
     updated_at = models.DateTimeField(verbose_name='updated at', default=timezone.now)
 

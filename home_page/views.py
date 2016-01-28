@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template import Template, Context
 from django.utils import timezone
 from django.conf import settings
+import xml.etree.ElementTree as ET
 
 from home_page.models import Comment, Like
 from visits.models import Visit
@@ -27,18 +28,30 @@ COMMENT_TEMPLATE = """
                         {% if edit_or_delete %}
                             <div style="height: 19px; background-color: #CDE1F5;">
                                 <div style="float: right;">
+                                    <a onclick="historyComment({{ id }}); return false;" href="#">H</a>
                                     <a onclick="editComment({{ id }}); return false;" href="#">R</a>
                                     <a onclick="deleteComment({{ id }}); return false;" href="delete_comment/">D</a>
                                 </div>
                             </div>
                         {% endif %}
-                        <div id="comment_{{ id }}">{{ text }}</div>
+                        <div id="comment_{{ id }}" style="word-break: break-all;">{{ text }}</div>
                     </div>
                     """
 
 
 def index(request):
-    return render(request, 'index.html', {})
+    args = {}
+    user_visits = Visit.objects.filter(uri='/', ip_address=request.META.get('REMOTE_ADDR', ''))
+    if user_visits:
+        args['user_visits'] = user_visits[0].visits
+        args['last_visit'] = user_visits[0].last_visit
+        for visit in user_visits:
+            if args['last_visit'] < visit.last_visit:
+                args['last_visit'] = visit.last_visit
+    else:
+        args['user_visits'] = 1
+        args['last_visit'] = 'never'
+    return render(request, 'index.html', args)
 
 
 def signup(request):
@@ -108,6 +121,7 @@ def send_comment(request):
                     if text != "":
                         comment.text = text
                         comment.updated_at = timezone.now()
+                        comment.history += str(comment.updated_at) + '\n' + comment.text + '\n\n\n\n'
                         comment.save()
                         return HttpResponse('editOK')
                     else:
@@ -118,6 +132,8 @@ def send_comment(request):
                     picture_id = request.POST['id']
                     if text != "":
                         comment = Comment.objects.create(id_image=picture_id, user=author, text=text)
+                        comment.save()
+                        comment.history = str(comment.created_at) + '\n' + comment.text + '\n\n\n\n'
                         comment.save()
                         response_comment = get_comment_item(comment, author)
                         return JsonResponse({'comment': response_comment})
@@ -168,6 +184,18 @@ def delete_comment(request, id_comment):
     return HttpResponse(request.META['HTTP_REFERER'])
 
 
+def get_history(request):
+    if request.method == 'GET':
+        if request.is_ajax():
+            id_comment = request.GET['id']
+            if request.user.is_authenticated():
+                    comment = get_object_or_404(Comment, id=id_comment)
+                    if comment:
+                        if comment.user.username == request.user.username:
+                            return HttpResponse(comment.history)
+    return HttpResponse(request.META['HTTP_REFERER'])
+
+
 def visits(request):
     hits_by_ip = {}
     final_list_by_ip = []
@@ -179,12 +207,22 @@ def visits(request):
         for visit_by_ip in visits_by_ip:
             num_hits += visit_by_ip.visits
         last_visit = timezone.localtime(visits_by_ip.order_by('-last_visit')[0].last_visit)
-        if ip_addr in settings.ADMIN_IP:
-            ip_addr = "ADMIN IP"
+        #if ip_addr in settings.ADMIN_IP:
+        #    ip_addr = "ADMIN IP"
         hits_by_ip[ip_addr] = [last_visit, num_hits]
     for key in sorted(hits_by_ip, key=lambda k: hits_by_ip[k][0], reverse=True):
         final_list_by_ip.append([key, hits_by_ip[key][0], hits_by_ip[key][1]])
     return render(request, 'visits.html', {'hits_by_ip': final_list_by_ip})
+
+
+def details_page(request, ip_address):
+    #if ip_address in settings.ADMIN_IP:
+    #    return Http404
+    all_visits_by_ip = Visit.objects.filter(ip_address=ip_address).order_by('-last_visit')
+    for visit_by_ip in all_visits_by_ip:
+        if visit_by_ip.last_visit:
+            visit_by_ip.last_visit = timezone.localtime(visit_by_ip.last_visit)
+    return render(request, 'details.html', {'all_visits_by_ip': all_visits_by_ip})
 
 
 def send_like(request):
@@ -211,3 +249,14 @@ def get_likes_count(request):
             count = Like.objects.filter(id_image=picture_id).count()
             return HttpResponse(count)
     return HttpResponse(request.META['HTTP_REFERER'])
+
+
+def statistic(request):
+    xml_header = b'<?xml version="1.0" encoding="UTF-8"?>\n'
+    root = ET.Element('Gallery')
+    for image in range(1, 44):
+        image_node = ET.SubElement(root, 'Image')
+        ET.SubElement(image_node, 'Name').text = str(image)
+        ET.SubElement(image_node, 'Likes').text = str(Like.objects.filter(id_image=image).count())
+        ET.SubElement(image_node, 'Comments').text = str(Comment.objects.filter(id_image=image).count())
+    return HttpResponse(xml_header + ET.tostring(root), content_type='text/xml')

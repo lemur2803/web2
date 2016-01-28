@@ -6,7 +6,7 @@ from home_page.models import Comment
 
 
 class CommentsAdmin(admin.ModelAdmin):
-    fields = ['id_image', 'user', 'text', 'edits', 'updated_at']
+    fields = ['id_image', 'user', 'text', 'history', 'edits', 'updated_at']
     list_display = ['id_image', 'user']
     list_editable = ['id_image', 'user']
     list_filter = ['id_image', 'user']
